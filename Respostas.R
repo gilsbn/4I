@@ -1,5 +1,4 @@
 
-
 # INÍCIO
 #==============================================================================
 # Pacotes -----------------------------------------------------------------
@@ -388,10 +387,12 @@ graf <- function(ANO = 2014) {
     scale_y_continuous(NULL, breaks = round(seq(ymin, ymax, length.out = 7), digits = 0)) + 
     scale_color_hue(NULL) + 
     labs(title    = "DINÂMICA DA INDÚSTRIA (PMI)", 
-         subtitle = paste0("Número-Índice: ", format(first(x$t), "%B %Y"), " = 100")) + 
-    g1 + leg00
+         subtitle = paste0("Número-Índice: ", format(first(x$t), "%B %Y"), " = 100"), 
+         caption  = "Fonte: IBGE") + 
+    g1 + leg00 + 
+    theme(plot.margin = margin(r = 18, unit = "pt"))
+  
   }; graf(2012)
-
 
 
 # Dinâmica: comércio (mensal) ---------------------------------------------
@@ -418,9 +419,11 @@ graf <- function(ANO = 2014) {
     scale_x_yearmonth(NULL,  breaks = seq(xmin, xmax, length.out = 10), date_labels = "%b-%y", expand = c(0,0)) + 
     scale_y_continuous(NULL, breaks = round(seq(ymin, ymax, length.out = 7), digits = 0)) + 
     scale_color_hue(NULL) + 
-    labs(title    = "DINÂMICA DA INDÚSTRIA (PMI)", 
-         subtitle = paste0("Número-Índice: ", format(first(x$t), "%B %Y"), " = 100")) + 
-    g1 + leg00
+    labs(title    = "DINÂMICA DO COMÉRCIO (PMC)", 
+         subtitle = paste0("Número-Índice: ", format(first(x$t), "%b-%Y"), " = 100"),
+         caption  = "Fonte: IBGE") + 
+    g1 + leg00 + 
+    theme(plot.margin = margin(r = 18, unit = "pt"))
   
 }; graf(2019)
 
@@ -449,11 +452,11 @@ graf <- function(ANO = 2019) {
     scale_x_yearmonth(NULL,  breaks = seq(xmin, xmax, length.out = 10), date_labels = "%b-%y", expand = c(0,0)) + 
     scale_y_continuous(NULL, breaks = round(seq(ymin, ymax, length.out = 7), digits = 0)) + 
     scale_color_hue(NULL) + 
-    labs(title    = "DINÂMICA DOS SERVIÇOS (PMI)", 
-         subtitle = paste0("Número-Índice: ", format(first(x$t), "%B %Y"), " = 100")) + 
-    g1 + leg00
-  
-
+    labs(title    = "DINÂMICA DOS SERVIÇOS (PMS)", 
+         subtitle = paste0("Número-Índice: ", format(first(x$t), "%b-%Y"), " = 100"), 
+         caption  = "Fonte: IBGE") + 
+    g1 + leg00 + 
+    theme(plot.margin = margin(r = 18, unit = "pt"))
   
 }; graf(2018)
 
@@ -482,14 +485,15 @@ graf <- function(d1 = 0, d2 = 0) {
     scale_x_discrete(NULL) + 
     scale_fill_brewer(NULL, palette = "Paired") + 
     labs(title    = "MAGNITUDE DAS QUEDAS DOS SETORES DA INDÚSTRIA", 
-         subtitle = "Variação percentual entre Jan/2019 e vale") + 
+         subtitle = "Variação percentual entre Jan/2019 e vale", 
+         caption  = "Fonte: IBGE") + 
     g1 + leg00 + 
-    theme(panel.background = element_blank(),
-          axis.ticks.x     = element_blank(), 
-          axis.text.x      = element_blank())
+    theme(panel.background   = element_blank(),
+          axis.ticks.x       = element_blank(), 
+          axis.text.x.bottom = element_blank())
   
 }; graf(d1 = 2, d2 = 1.2)
-x
+
 
 # Indústria: magnitude da recuperação ------------------------------------------------
 
@@ -515,15 +519,15 @@ graf <- function(d1 = 0, d2 = 0) {
     scale_x_discrete(NULL) + 
     scale_fill_brewer(NULL, palette = "Paired") + 
     labs(title    = "MAGNITUDE DAS QUEDAS DOS SETORES DA INDÚSTRIA", 
-         subtitle = "Variação percentual entre Jan/2019 e vale") + 
+         subtitle = "Variação percentual entre Jan/2019 e vale", 
+         caption  = "Fonte: IBGE") + 
     g1 + leg11 + 
-    theme(panel.background = element_blank(),
-          axis.ticks.x     = element_blank(), 
-          axis.text.x      = element_blank(), 
-          plot.margin      = margin(b = 5, unit ="pt"))
+    theme(panel.background   = element_blank(),
+          axis.ticks.x       = element_blank(), 
+          axis.text.x.bottom = element_blank(), 
+          plot.margin        = margin(b = 5, unit ="pt"))
   
 }; graf(d1 = 7, d2 = -1)
-
 
 
 # Comércio: magnitude da queda --------------------------------------------
@@ -549,11 +553,12 @@ graf <- function(d1 = 0, d2 = 0) {
     scale_x_discrete(NULL) + 
     scale_fill_brewer(NULL, palette = "Paired") + 
     labs(title    = "MAGNITUDE DAS QUEDAS DOS SETORES DO COMÉRCIO", 
-         subtitle = "Variação percentual entre Jan/2019 e vale") + 
+         subtitle = "Variação percentual entre Jan/2019 e vale", 
+         caption  = "Fonte: IBGE") + 
     g1 + leg00 + 
-    theme(panel.background = element_blank(),
-          axis.ticks.x     = element_blank(), 
-          axis.text.x      = element_blank())
+    theme(panel.background   = element_blank(),
+          axis.ticks.x       = element_blank(), 
+          axis.text.x.bottom = element_blank())
   
 }; graf(d1 = 5, d2 = 1.2)
 
@@ -582,12 +587,13 @@ graf <- function(d1 = 0, d2 = 0) {
     scale_x_discrete(NULL) + 
     scale_fill_brewer(NULL, palette = "Paired") + 
     labs(title    = "MAGNITUDE DAS RECUPERAÇÕES DOS SETORES DO COMÉRCIO", 
-         subtitle = "Variação percentual entre vale e Fev/2021") + 
+         subtitle = "Variação percentual entre vale e Fev/2021", 
+         caption  = "Fonte: IBGE") + 
     g1 + leg11 + 
-    theme(panel.background = element_blank(),
-          axis.ticks.x     = element_blank(), 
-          axis.text.x      = element_blank(), 
-          plot.margin      = margin(b = 5, unit = "pt"))
+    theme(panel.background   = element_blank(),
+          axis.ticks.x       = element_blank(), 
+          axis.text.x.bottom = element_blank(), 
+          plot.margin        = margin(b = 5, unit = "pt"))
   
 }; graf(d1 = 20, d2 = -1)
 
@@ -616,14 +622,14 @@ graf <- function(d1 = 0, d2 = 0) {
     scale_x_discrete(NULL) + 
     scale_fill_brewer(NULL, palette = "Paired") + 
     labs(title    = "MAGNITUDE DAS QUEDAS DOS SETORES DE SERVIÇOS", 
-         subtitle = "Variação percentual entre Jan/2019 e vale") + 
+         subtitle = "Variação percentual entre Jan/2019 e vale", 
+         caption  = "Fonte: IBGE") + 
     g1 + leg00 + 
-    theme(panel.background = element_blank(),
-          axis.ticks.x     = element_blank(), 
-          axis.text.x      = element_blank())
+    theme(panel.background   = element_blank(),
+          axis.ticks.x       = element_blank(), 
+          axis.text.x.bottom = element_blank())
   
 }; graf(d1 = 3, d2 = 1.2)
-
 
 
 
@@ -651,15 +657,14 @@ graf <- function(d1 = 0, d2 = 0) {
     scale_x_discrete(NULL) + 
     scale_fill_brewer(NULL, palette = "Paired") + 
     labs(title    = "MAGNITUDE DAS QUEDAS DOS SETORES DE SERVIÇOS", 
-         subtitle = "Variação percentual entre Jan/2019 e vale") + 
+         subtitle = "Variação percentual entre Jan/2019 e vale", 
+         caption  = "Fonte: IBGE") + 
     g1 + leg11 + 
-    theme(panel.background = element_blank(),
-          axis.ticks.x     = element_blank(), 
-          axis.text.x      = element_blank())
+    theme(panel.background   = element_blank(),
+          axis.ticks.x       = element_blank(), 
+          axis.text.x.bottom = element_blank())
   
 }; graf(d1 = 5, d2 = -1)
-
-
 
 
 
@@ -683,12 +688,12 @@ graf <- function(ANO = 2014, d1 = 0, d2 = 0) {
     geom_point() + 
     scale_y_continuous(NULL, limits = c(ymin,ymax), expand = c(0,0)) + 
     scale_x_yearmonth(NULL, date_labels ="%b-%y", expand = c(0,0)) + 
-    labs(title = "BRASIL: ÍNDICE DE ATIVIDADE: IBC-BR", 
-         subtitle = paste0("Número-Índice: ", format(first(x$t),"%B/%Y"), " = 100")) + 
+    labs(title    = "BRASIL: ÍNDICE DE ATIVIDADE (IBC-BR)", 
+         subtitle = paste0("Número-Índice: ", format(first(x$t),"%B/%Y"), " = 100"), 
+         caption  = "Fonte: Banco Central") + 
     g1
   
 }; graf(ANO = 2003)
-
 
 
 # IBC-Br: correlações -----------------------------------------------------
@@ -742,11 +747,27 @@ graf <- function(ANO = 2014) {
     ggplot(aes(t,y, color = Categ)) + 
     geom_line() + 
     geom_point() + 
-    g1 + leg00
+    scale_x_yearquarter(NULL,  breaks = seq(xmin, xmax, length.out = 10), date_labels = "%Y:%q", expand = c(0,0)) + 
+    scale_y_continuous(NULL) + 
+    scale_color_manual(NULL, values = c(paletaazul[2], paletavermelha[2], paletaverde[2])) + 
+    labs(title    = "DINÂMICA DA INDÚSTRIA", 
+         subtitle = paste0("Número-Índice: ", format(first(x$t), "%Y:%q"), " = 100"), 
+         caption  = "Fonte: IBGE") + 
+    g1 + leg00 + 
+    theme(plot.margin = margin(r = 18, unit = "pt"))
   
 }; graf(ANO = 2019)
 
-
+x %>%
+  ggplot(aes(t,y, color = Categ)) + 
+  geom_line() + 
+  geom_point() + 
+  scale_x_yearmonth(NULL,  breaks = seq(xmin, xmax, length.out = 10), date_labels = "%b-%y", expand = c(0,0)) + 
+  scale_y_continuous(NULL, breaks = round(seq(ymin, ymax, length.out = 7), digits = 0)) + 
+  
+  labs(title    = "DINÂMICA DA INDÚSTRIA (PMI)", 
+       subtitle = paste0("Número-Índice: ", format(first(x$t), "%B %Y"), " = 100")) + 
+  g1 + leg00
 
 # Dinâmica: comércio (trimestral) ----------------------------------------------------
 
@@ -774,11 +795,19 @@ ymax <- max(x$y, na.rm = TRUE)
 
 x %>%
   ggplot(aes(t,y, color = Categ)) + 
-  geom_line() + 
+  geom_line(alpha = 0.85) + 
   geom_point() + 
-  g1 + leg00
+  scale_x_yearquarter(NULL,  breaks = seq(xmin, xmax, length.out = 10), date_labels = "%Y:%q", expand = c(0,0)) + 
+  scale_y_continuous(NULL, breaks = round(seq(ymin, ymax, length.out = 7), digits = 0)) + 
+  scale_color_hue(NULL) + 
+  labs(title    = "DINÂMICA DO COMÉRCIO (PMC)", 
+       subtitle = paste0("Número-Índice: ", format(first(x$t), "%Y:%q"), " = 100"),
+       caption  = "Fonte: IBGE") + 
+  g1 + leg00 + 
+  theme(plot.margin = margin(r = 18, unit = "pt"))
 
 }; graf(ANO = 2019)
+
 
 # Dinâmica: serviços (trimestral) -----------------------------------------
 
@@ -805,11 +834,19 @@ ymax <- max(x$y, na.rm = TRUE)
 
 x %>%
   ggplot(aes(t,y, color = Categ)) + 
-  geom_line() + 
+  geom_line(alpha = 0.85) + 
   geom_point() + 
-  g1 + leg00
+  scale_x_yearquarter(NULL,  breaks = seq(xmin, xmax, length.out = 10), date_labels = "%Y:%q", expand = c(0,0)) + 
+  scale_y_continuous(NULL, breaks = round(seq(ymin, ymax, length.out = 7), digits = 0)) + 
+  scale_color_hue(NULL) + 
+  labs(title    = "DINÂMICA DOS SERVIÇOS (PMS)", 
+       subtitle = paste0("Número-Índice: ", format(first(x$t), "%Y:%q"), " = 100"),
+       caption  = "Fonte: IBGE") + 
+  g1 + leg00 + 
+  theme(plot.margin = margin(r = 18, unit = "pt"))
 
 }; graf(ANO = 2019)
+
 
 # Dinâmica: PIB e setores I -------------------------------------------------
 
@@ -840,19 +877,19 @@ graf <- function(ANO = 2020) {
     geom_point() + 
     geom_text_repel(aes(label = round(l, digits = 0)), size = 3.5, face = "bold", nudge_x = c(12,0,15,-3), nudge_y = c(1,0,-4,-2)) + 
     scale_y_continuous(NULL, breaks = round(seq(ymin,ymax, length.out = 10), digits = 0)) + 
-    scale_x_yearmonth(NULL,  limits = c(xmin,xmax), breaks = seq(xmin,xmax, length.out = 8), date_labels = "%b-%y", expand = c(0,3)) + 
+    scale_x_yearmonth(NULL,  limits = c(xmin,xmax), breaks = seq(xmin,xmax, length.out = 9), date_labels = "%b-%y", expand = c(0,3)) + 
     scale_color_manual(NULL, breaks = unique(x$Setor), values = c(paletacinza[1], paletaazul[2], paletavermelha[3], paletaverde[2])) +
     g1 + leg00 +
-    labs(title = "(a)") + 
-    theme(plot.margin = margin(r = 18, unit = "pt"), 
-          plot.title = element_text(hjust = 0.5, size = 12))
+    labs(title    = "DINÂMICA DO PIB E GRANDES SETORES", 
+         subtitle = paste0("Número-Índice: ", format(first(x$t), "%b-%y"), " = 100"),
+         caption  = "Fonte: IBGE/Banco Central") + 
+    theme(plot.margin = margin(r = 18, unit = "pt"))
   
 }; graf(ANO = 2014)
 
 x %>% summarise(y = ((min(y)/first(y))-1)*100)
 x %>% summarise(y = ((last(y)/min(y))-1)*100)
 x %>% summarise(y = ((last(y)/first(y)))*100)
-
 
 x <- 
   pim %>%
@@ -872,7 +909,6 @@ x %>% filter(y == min(y))
 x %>% summarise(y = ((min(y)/first(y))-1)*100)
 x %>% summarise(y = ((last(y)/min(y))-1)*100)
 x %>% summarise(y = ((last(y)/first(y)))*100)
-
 
   
 # Dinâmica: PIB e setores II ---------------------------
@@ -908,9 +944,10 @@ graf <- function(ANO = 2020) {
                       date_labels = "%b-%y") + 
     scale_color_manual(NULL, breaks = unique(x$Setor), values = c(paletacinza[1], paletaazul[2], paletavermelha[3], paletaverde[2])) +
     g1 + leg00 + 
-    labs(title = "(b)") + 
-    theme(plot.margin = margin(r = 18, unit = "pt"), 
-          plot.title = element_text(hjust = 0.5, size = 12))
+    labs(title    = "DINÂMICA DO PIB E GRANDES SETORES", 
+         subtitle = paste0("Número-Índice: ", format(first(x$t), "%b-%Y"), " = 100"),
+         caption  = "Fonte: IBGE/Banco Central") + 
+    theme(plot.margin = margin(r = 18, unit = "pt"))
   
   }; graf(ANO = 2014)
 
@@ -942,8 +979,6 @@ pim %>%
 
 x %>% summarise(y = ((min(y)/first(y))-1)*100)
 x %>% filter(y == min(y))
-
-
 
 
 # Modelos ARIMA(12,0,0) -----------------------------------------------------------------
@@ -1057,9 +1092,10 @@ x %>%
   scale_x_yearmonth(NULL, breaks = seq(yearmonth("2020 1"), yearmonth("2021 12"), length.out = 10), date_labels = "%b %y", expand = c(0,0)) + 
   scale_color_manual(NULL, values = c(paletacinza[1], paletaazul[2], paletavermelha[2])) + 
   g1 + leg10 + 
-  labs(title = "(b)") + 
-  theme(plot.margin = margin(t = 5, r = 18, unit = "pt"), 
-        plot.title  = element_text(size = 12, hjust = 0.5))
+  labs(title    = "MODELO ARIMA: PREVISÃO PARA 2021", 
+       subtitle = paste0("Número-Índice: ", format(yearmonth("2020 1"), "%b-%Y"), " = 100"),
+       caption = "Fonte: Elaboração própria") + 
+  theme(plot.margin = margin(t = 5, r = 18, unit = "pt"))
 
 
 #==============================================================================
@@ -1359,37 +1395,37 @@ x %>%
 
 # Nível de instrução: ocupados vs desocupados ---------------------------
 
-x1 <- x1 %>% mutate(Ocup = "Ocupados")    %>% filter(Ano == 2020) %>% select(Ocup, E,y)
-x2 <- x2 %>% mutate(Ocup = "Desocupados") %>% filter(Ano == 2020) %>% select(Ocup, E,y)
-
-x <- rbind(x1,x2)
-
-d1 <- 0.1
-d2 <- 2.5
-geom_text(aes(label = paste0(round(y, digits = 1), "%")), hjust = -d, color = "#000000", size = 3, fontface = "bold")
-  
-x %>%
-  ggplot(aes(fct_rev(E), y)) +
-  geom_bar(aes(fill = -y), stat = "identity", position = "dodge", alpha = 0.8) + 
-  geom_text(aes(label = paste0(round(y, digits = 1), "%")), hjust = -d1, color = paletacinza[1], size = 3, fontface = "bold") + 
-  scale_x_discrete(NULL, expand = c(0,0)) + 
-  scale_y_continuous(NULL, 
-                     limits = c(0,ymax+d2), 
-                     breaks = round(seq(0, ymax, length.out = 10), digits = 0),
-                     labels = function(y) paste0(y,"%"),
-                     expand = c(0,0)) + 
-  scale_fill_gradient(NULL) + 
-  labs(title    = "NÍVEL DE INSTRUÇÃO: POPULAÇÃO OCUPADA E DESOCUPADA (2019/2020)", 
-       subtitle = "Proporções em relação ao total de desocupados", 
-       caption  = "Fonte: PNAD/IBGE") + 
-  coord_flip() + 
-  facet_grid(Ocup ~.) + 
-  g1 + 
-  theme(legend.position    = "none", 
-        axis.line.x.bottom = element_blank(), 
-        axis.line.y.left   = element_blank(), 
-        axis.ticks.x = element_blank(), 
-        axis.text.x = element_blank())
+# x1 <- x1 %>% mutate(Ocup = "Ocupados")    %>% filter(Ano == 2020) %>% select(Ocup, E,y)
+# x2 <- x2 %>% mutate(Ocup = "Desocupados") %>% filter(Ano == 2020) %>% select(Ocup, E,y)
+# 
+# x <- rbind(x1,x2)
+# 
+# d1 <- 0.1
+# d2 <- 2.5
+# geom_text(aes(label = paste0(round(y, digits = 1), "%")), hjust = -d, color = "#000000", size = 3, fontface = "bold")
+#   
+# x %>%
+#   ggplot(aes(fct_rev(E), y)) +
+#   geom_bar(aes(fill = -y), stat = "identity", position = "dodge", alpha = 0.8) + 
+#   geom_text(aes(label = paste0(round(y, digits = 1), "%")), hjust = -d1, color = paletacinza[1], size = 3, fontface = "bold") + 
+#   scale_x_discrete(NULL, expand = c(0,0)) + 
+#   scale_y_continuous(NULL, 
+#                      limits = c(0,ymax+d2), 
+#                      breaks = round(seq(0, ymax, length.out = 10), digits = 0),
+#                      labels = function(y) paste0(y,"%"),
+#                      expand = c(0,0)) + 
+#   scale_fill_gradient(NULL) + 
+#   labs(title    = "NÍVEL DE INSTRUÇÃO: POPULAÇÃO OCUPADA E DESOCUPADA (2019/2020)", 
+#        subtitle = "Proporções em relação ao total de desocupados", 
+#        caption  = "Fonte: PNAD/IBGE") + 
+#   coord_flip() + 
+#   facet_grid(Ocup ~.) + 
+#   g1 + 
+#   theme(legend.position    = "none", 
+#         axis.line.x.bottom = element_blank(), 
+#         axis.line.y.left   = element_blank(), 
+#         axis.ticks.x = element_blank(), 
+#         axis.text.x = element_blank())
 
 
 # Rendimento médio: ocupados ----------------------------------------------
