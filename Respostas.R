@@ -186,7 +186,7 @@ Regioes  <- c("Norte", "Nordeste", "Sudeste", "Sul", "Centro")
 pim_categ <- c("Indústria geral", "Indústria extrativas", "Indústria de transformação")
 pim <- 
   read_excel("Tabela 3651.xlsx", range = "A6:D235", col_names = c("t", pim_categ)) %>%
-  mutate(t = parse_date(t, format = "%B %Y", locale = locale("pt"))) %>%
+  mutate(t = readr::parse_date(t, format = "%B %Y", locale = locale("pt"))) %>%
   pivot_longer(`Indústria geral`:`Indústria de transformação`, names_to = "Categ", values_to = "y") %>%
   mutate(y = if_else(t == as_date("2002-01-01"), NA_real_, y), 
          Categ = factor(Categ, levels = pim_categ), 
@@ -200,7 +200,7 @@ pmc_categ <- c("Combustíveis e lubrificantes", "Alimentos (geral)", "Têxtil", 
                "Impresso", "Escritório e informática", "Pessoal e doméstico", "Veículos e peças", "Material de construção")
 pmc <- 
   read_excel("tabela3419.xlsx", range = "A7:K260", col_names = c("t", pmc_categ), na = "-") %>%
-  mutate(t = parse_date(t, format = "%B %Y", locale = locale("pt"))) %>%
+  mutate(t = readr::parse_date(t, format = "%B %Y", locale = locale("pt"))) %>%
   pivot_longer(`Combustíveis e lubrificantes`:`Material de construção`, names_to = "Categ", values_to = "y") %>%
   mutate(Categ = factor(Categ, levels = c(pmc_categ)), Setor = "Comércio") %>%
   select(Setor, everything()) %>%
@@ -208,7 +208,7 @@ pmc <-
 
 x <- 
   read_excel("tabela3417.xlsx", range = "A7:B223", col_names = c("t", "y"), na = "-") %>%
-  mutate(t = parse_date(t, format = "%B %Y", locale = locale("pt")), 
+  mutate(t = readr::parse_date(t, format = "%B %Y", locale = locale("pt")), 
          Categ = "Comércio total", 
          Setor = "Comércio") %>%
   select(Setor,t, Categ,y)
@@ -223,7 +223,7 @@ pms_categ <- c("Serviços total", "Serviços às famílias", "Informação e com
                "Profissionais, adm. e outros", "Transportes e auxiliares e correio", "Outros serviços")
 pms <- 
   read_excel("tabela6443.xlsx", range = "A7:G128", col_names = c("t", pms_categ), na = "-") %>%
-  mutate(t = parse_date(t, format = "%B %Y", locale = locale("pt"))) %>%
+  mutate(t = readr::parse_date(t, format = "%B %Y", locale = locale("pt"))) %>%
   pivot_longer(`Serviços total`:`Outros serviços`, names_to = "Categ", values_to = "y") %>%
   mutate(Categ = factor(Categ, levels = c(pms_categ)), Setor = "Serviços") %>%
   select(Setor, everything()) %>%
@@ -232,41 +232,7 @@ pms <-
 
 # Base de dados PNAD -----------------------------------------------------------
 
-pnad <- read.csv("pnad.csv", head = TRUE, na.strings = "NA")
-
-# n_1  <- pnad %>% dim() %>% first()
-# n_2 <- 
-#   pnad %>%
-#   as_tibble() %>%
-#   filter(V2008 != 99) %>%
-#   dim() %>% first()
-
-# x <- 
-#   pnad %>%
-#   as_tibble() %>%
-#   filter(V2008 != 99) %>%
-#   mutate(Nasc_ano = as.character(V20082), 
-#          Nasc_mes = as.character(V20081), 
-#          Nasc_dia = as.character(V2008), 
-#          Nasc_mes = if_else(nchar(Nasc_mes) == 1, paste0(0, Nasc_mes), Nasc_mes), 
-#          Nasc_dia = if_else(nchar(Nasc_dia) == 1, paste0(0, Nasc_dia), Nasc_dia), 
-#          Nasc = as_date(paste(Nasc_ano, Nasc_mes, Nasc_dia, sep = "-")), 
-#          Qtr  = as.yearqtr(paste(Ano, Trimestre, sep = "-"), format = "%Y-%q")) %>%
-#   rename(Dom = V1008, Painel = V1014, Sex = V2007, Trim = Trimestre) %>%
-#   select(-Nasc_ano, -Nasc_mes, -Nasc_dia) %>%
-#   select(X, Ano, Trim, UPA, Dom, Painel, Sex, Nasc, Qtr, everything()) %>%
-#   group_by(Qtr) %>%
-#   mutate(Dp_UPA = if_else(duplicated(UPA)    == TRUE | duplicated(UPA,    fromLast = T), 1,0), 
-#          Dp_Dom = if_else(duplicated(Dom)    == TRUE | duplicated(Dom,    fromLast = T), 1,0), 
-#          Dp_Pai = if_else(duplicated(Painel) == TRUE | duplicated(Painel, fromLast = T), 1,0), 
-#          Dp_Sex = if_else(duplicated(Sex)    == TRUE | duplicated(Sex,    fromLast = T), 1,0), 
-#          Dp_Nas = if_else(duplicated(Nasc)   == TRUE | duplicated(Nasc,   fromLast = T), 1,0), 
-#          Dp     = if_else(Dp_UPA == 1 & Dp_Pai == 1 & Dp_Sex == 1 & Dp_Nas == 1, 1, 0))
-# 
-# x %>% select(X, Ano, Trim, UPA, Dom, Painel, Sex, Nasc, Qtr, Dp) %>% filter(Dp == 0) %>% print(n=50)
-
-# Retirando dia 99 e Gêmeos
-
+pnad  <- read.csv("pnad.csv", head = TRUE, na.strings = "NA")
 pnad2 <- 
   pnad %>%
   as_tibble() %>%
@@ -312,13 +278,96 @@ ibcbr <-
 #==============================================================================
 
 
+# FUNÇÕES
+#==============================================================================
+# Número-Índice -----------------------------------------------------------
+
+Ind <- function(x, nivel, final = FALSE) {
+  # x     >> taxa de variação da série 
+  # nível >> Nivelamento: 1 ou 100?
+  # final >> Nivalmento n início ou final da série?
+  if (!is.vector(x) || length(nivel) > 1 || !is.numeric(nivel)  || !is.logical(final) || length(final) >1) {
+    stop("checar entradas!")
+  } else {
+    if (final == FALSE) {
+      indice    <- nivel;
+      for (i in 2:length(x)) {
+        indice <- c(indice, last(indice)*(1+x[i]))
+      }
+    } else {
+      indice <- nivel; 
+      for (i in (length(x)):2) {
+        indice <- c(indice, (last(indice)/(1+x[i])))
+      }
+      indice <- rev(indice)  #inverter a ordem do vetor
+    }  
+    indice
+  }
+}
+
+
+# Multiplicador de preços ----------------------------------------------------
+
+Mp <- function(x, final = FALSE) {
+  # x     >> taxa de variação do índice de preços 
+  # final >> Normalização no iníco ou no final?
+  if (!is.vector(x) || !is.logical(final) || length(final) >1) {
+    stop("checar entradas!")
+  } else {
+    if (final == FALSE) {
+      indice    <- 1;
+      for (i in 2:length(x)) {
+        indice <- c(indice, last(indice)/(1+x[i]))
+      }
+    } else {
+      indice <- 1; 
+      for (i in (length(x)):2) {
+        indice <- c(indice, (last(indice)*(1+x[i])))
+      }
+      indice <- rev(indice)  #inverter a ordem do vetor
+    }  
+    indice
+  }
+}
+
+
+# Produzir séries reais ---------------------------------------------------
+
+Real <- function(x, y, final = FALSE) {
+  # x     >> taxa de variação dos preços
+  # y     >> série nominal
+  # final >> trazer para preços do início ou final do período (padrão: início)
+  
+  if (!is.vector(x) || !is.vector(y) || !(near(length(x),length(y))) || !is.logical(final) || length(final) >1) {
+    stop("checar entradas!")
+  } else {
+    if (final == FALSE) {
+      indice    <- 1;
+      for (i in 2:length(x)) {
+        indice <- c(indice, last(indice)/(1+x[i]))
+      }
+    } else {
+      indice <- 1; 
+      for (i in (length(x)):2) {
+        indice <- c(indice, (last(indice)*(1+x[i])))
+      }
+      indice <- rev(indice)  #inverter a ordem do vetor
+    }  
+    indice*y
+  }
+}
+
+
+#==============================================================================
+
+
 # QUESTÃO 2
 #==============================================================================
 # Dinâmica: indústria (mensal) -----------------------------------------------------
 
 graf <- function(ANO = 2014) { 
   x <- 
-    pim1 %>%
+    pim %>%
     group_by(Setor, Categ) %>%
     mutate(t = yearmonth(t,format = "%b %Y")) %>%
     filter(year(t) >= ANO) %>%
